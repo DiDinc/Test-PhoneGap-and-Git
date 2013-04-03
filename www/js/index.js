@@ -41,8 +41,8 @@ var app = {
         if (navigator.connection.type == 'none') {
             setAppState(false);
         } else {
-            document.location.href = 'http://web1.youngevity.reurgency.net/youngevity_dev1_repapp';
-            //window.open('http://web1.youngevity.reurgency.net/youngevity_dev1_repapp', '-self', null);
+            //document.location.href = 'http://www.youngevity.reurgency.com/youngevity_dev1_repapp';
+            window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
         }
     },
     // Update DOM on a Received Event
