@@ -17,7 +17,6 @@
  * under the License.
  */
 var previousLocation = '';
-var deviceHeading, deviceName, deviceVersion;
 var app = {
     // Application Constructor
     initialize: function() {
@@ -39,23 +38,11 @@ var app = {
         document.addEventListener("online", onAppIsOnline, false);
         document.addEventListener("offline", onAppIsOffline, false);
         document.getElementById("retryConnection_btn").addEventListener("click",retryConnectionHandler,false);
-		document.getElementById("test_btn").addEventListener("click",testHandler,false)
-        navigator.compass.getCurrentHeading(
-			function(heading){
-				deviceHeading = heading;
-			},
-			function(){
-				deviceHeading = 'Not defined';
-			}
-		);
-		deviceName = window.device.name;
-		deviceVersion = window.device.version;
 		if (navigator.connection.type == 'none') {
             setAppState(false);
         } else {
             //document.location.href = 'http://www.youngevity.reurgency.com/youngevity_dev1_repapp';
-            //window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
-			document.getElementById("online_div").style.display = "block"; 
+            window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
         }
     },
     // Update DOM on a Received Event
@@ -69,12 +56,11 @@ var app = {
 //Call when app comes online
 var onAppIsOnline = function () {
     app.receivedEvent('online');
-    if (document.getElementById("offline_div").style.display == 'block') {
-        if (previousLocation != '') {
-            document.location.href = previousLocation;
-        } else {
-            document.location.href = 'http://web1.youngevity.reurgency.net/youngevity_dev1_repapp';
-        }
+    document.getElementById("offline_div").style.display == 'none';
+    if (previousLocation != '') {
+        document.location.href = previousLocation;
+    } else {
+        document.location.href = 'http://web1.youngevity.reurgency.net/youngevity_dev1_repapp';
     }
 },
 //Call When app goes offline
@@ -98,14 +84,4 @@ retryConnectionHandler = function () {
     if (navigator.connection.type != 'none') {
         setAppState(true);
     }
-},
-//Test function
-testHandler = function () {
-    console.log('This is a console log, in the cloud!');
-	console.log('Device Heading');
-	console.log(deviceHeading);
-	console.log('Device Name');
-	console.log(deviceName);
-	console.log('Device Version');
-	console.log(deviceVersion);
 }
