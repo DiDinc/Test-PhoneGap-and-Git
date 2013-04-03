@@ -17,6 +17,7 @@
  * under the License.
  */
 var previousLocation = '';
+var deviceHeading, deviceName, deviceVersion;
 var app = {
     // Application Constructor
     initialize: function() {
@@ -37,12 +38,24 @@ var app = {
         app.receivedEvent('deviceready');
         document.addEventListener("online", onAppIsOnline, false);
         document.addEventListener("offline", onAppIsOffline, false);
-        document.getElementById("retryConnection_btn").addEventListener("click",retryConnectionHandler,false)
-        if (navigator.connection.type == 'none') {
+        document.getElementById("retryConnection_btn").addEventListener("click",retryConnectionHandler,false);
+		document.getElementById("test_btn").addEventListener("click",testHandler,false)
+        navigator.compass.getCurrentHeading(
+			function(heading){
+				deviceHeading = heading;
+			},
+			function(){
+				deviceHeading = 'Not defined';
+			}
+		);
+		deviceName = window.device.name;
+		deviceVersion = window.device.version;
+		if (navigator.connection.type == 'none') {
             setAppState(false);
         } else {
             //document.location.href = 'http://www.youngevity.reurgency.com/youngevity_dev1_repapp';
-            window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
+            //window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
+			document.getElementById("online_div").style.display = "block"; 
         }
     },
     // Update DOM on a Received Event
@@ -85,4 +98,14 @@ retryConnectionHandler = function () {
     if (navigator.connection.type != 'none') {
         setAppState(true);
     }
+},
+//Test function
+testHandler = function () {
+    console.log('This is a console log, in the cloud!');
+	console.log('Device Heading');
+	console.log(deviceHeading);
+	console.log('Device Name');
+	console.log(deviceName);
+	console.log('Device Version');
+	console.log(deviceVersion);
 }
