@@ -50,7 +50,9 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
-        console.log('Received Event: ' + id);
+        var msg = 'Received Event: ' + id
+        console.log(msg);
+        document.getElementById('mainApp_div').innerHTML = document.getElementById('mainApp_div').innerHTML + '<br>' + msg;
     }
 };
 
