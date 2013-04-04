@@ -27,8 +27,8 @@ var app = {
         // This is an event handler function, which means the scope is the event.
         // So, we must explicitly called `app.report()` instead of `this.report()`.
         app.report('deviceready');
-        document.addEventListener("online", this.onAppIsOnline, false);
-        document.addEventListener("offline", this.onAppIsOffline, false);
+        //document.addEventListener("online", this.onAppIsOnline, false);
+        //document.addEventListener("offline", this.onAppIsOffline, false);
         
         if (navigator.connection.type == 'none') {
             app.report('OFFLINE');
@@ -41,12 +41,12 @@ var app = {
     report: function(id) {
         // Report the event in the console
         console.log("Report: " + id);
-        navigator.notification.alert(
-            "Report: " + id,  // message
-            alertDismissed,   // callback
-            'Report',         // title
-            'Ok'            // buttonName
-        );
+        //navigator.notification.alert(
+        //    "Report: " + id,  // message
+        //    alertDismissed,   // callback
+        //    'Report',         // title
+        //    'Ok'            // buttonName
+        //);
         // Toggle the state from "pending" to "complete" for the reported ID.
         // Accomplished by adding .hide to the pending element and removing
         // .hide from the complete element.
