@@ -16,76 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var previousLocation = '';
 var app = {
-    // Application Constructor
     initialize: function() {
-        this.bindEvents();
+        this.bind();
     },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+    bind: function() {
+        document.addEventListener('deviceready', this.deviceready, false);
     },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicity call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-        document.addEventListener("online", onAppIsOnline, false);
-        document.addEventListener("offline", onAppIsOffline, false);
-        document.getElementById("retryConnection_btn").addEventListener("click",retryConnectionHandler,false);
-		if (navigator.connection.type == 'none') {
-		    app.receivedEvent('OFFLINE');
-		    setAppState(false);
-        } else {
-		    app.receivedEvent('ONLINE');
-		    document.location.href = 'http://www.youngevity.reurgency.com/youngevity_dev1_repapp';
-		    //window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
-        }
+    deviceready: function() {
+        // This is an event handler function, which means the scope is the event.
+        // So, we must explicitly called `app.report()` instead of `this.report()`.
+        app.report('deviceready');
     },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var msg = 'Received Event: ' + id
-        console.log(msg);
-        document.getElementById('mainApp_div').innerHTML = document.getElementById('mainApp_div').innerHTML + '<br>' + msg;
+    report: function(id) {
+        // Report the event in the console
+        console.log("Report: " + id);
+
+        // Toggle the state from "pending" to "complete" for the reported ID.
+        // Accomplished by adding .hide to the pending element and removing
+        // .hide from the complete element.
+        document.querySelector('#' + id + ' .pending').className += ' hide';
+        var completeElem = document.querySelector('#' + id + ' .complete');
+        completeElem.className = completeElem.className.split('hide').join('');
     }
 };
-
-
-//Call when app comes online
-var onAppIsOnline = function () {
-    app.receivedEvent('online');
-    document.getElementById("offline_div").style.display == 'none';
-    if (previousLocation != '') {
-        document.location.href = previousLocation;
-    } else {
-        document.location.href = 'http://www.youngevity.reurgency.com/youngevity_dev1_repapp';
-    }
-},
-//Call When app goes offline
-onAppIsOffline = function () {
-    app.receivedEvent('offline');
-    setAppState(false);
-    previousLocation = document.location.href;
-},
-//Set app state to show/hide offline msg
-setAppState = function (isOnline) {
-    if (isOnline) {
-        document.getElementById("mainApp_div").style.display = "block";
-        document.getElementById("offline_div").style.display = "none";
-    } else {
-        document.getElementById("mainApp_div").style.display = "none";
-        document.getElementById("offline_div").style.display = "block";  
-    }
-},
-//Called from offline mode div to re-check connection
-retryConnectionHandler = function () {
-    if (navigator.connection.type != 'none') {
-        setAppState(true);
-    }
-}
