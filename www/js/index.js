@@ -44,7 +44,7 @@ var app = {
         } else {
 		    app.receivedEvent('ONLINE');
 		    document.location.href = 'http://www.youngevity.reurgency.com/youngevity_dev1_repapp';
-            //window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
+		    //window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
         }
     },
     // Update DOM on a Received Event
@@ -64,7 +64,7 @@ var onAppIsOnline = function () {
     if (previousLocation != '') {
         document.location.href = previousLocation;
     } else {
-        document.location.href = 'http://web1.youngevity.reurgency.net/youngevity_dev1_repapp';
+        document.location.href = 'http://www.youngevity.reurgency.com/youngevity_dev1_repapp';
     }
 },
 //Call When app goes offline
