@@ -27,37 +27,41 @@ var app = {
         // This is an event handler function, which means the scope is the event.
         // So, we must explicitly called `app.report()` instead of `this.report()`.
         app.report('deviceready');
-        //document.addEventListener("online", this.onAppIsOnline, false);
-        //document.addEventListener("offline", this.onAppIsOffline, false);
+        document.addEventListener("online", this.onAppIsOnline, false);
+        document.addEventListener("offline", this.onAppIsOffline, false);
         
         if (navigator.connection.type == 'none') {
             app.report('OFFLINE');
         } else {
             app.report('ONLINE');
-            //document.location.href = 'http://www.youngevity.reurgency.com/youngevity_dev1_repapp';
-            window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
+            document.location.href = 'http://www.youngevity.reurgency.com/youngevity_dev1_repapp';
+            //window.open('http://www.youngevity.reurgency.com/youngevity_dev1_repapp', '-self', null);
         }
     },
     report: function(id) {
         // Report the event in the console
         console.log("Report: " + id);
-        //navigator.notification.alert(
-        //    "Report: " + id,  // message
-        //    alertDismissed,   // callback
-        //    'Report',         // title
-        //    'Ok'            // buttonName
-        //);
+        
         // Toggle the state from "pending" to "complete" for the reported ID.
         // Accomplished by adding .hide to the pending element and removing
         // .hide from the complete element.
-        document.querySelector('#' + id + ' .pending').className += ' hide';
-        var completeElem = document.querySelector('#' + id + ' .complete');
-        completeElem.className = completeElem.className.split('hide').join('');
+        if (id == 'deviceready') {
+            document.querySelector('#' + id + ' .pending').className += ' hide';
+            var completeElem = document.querySelector('#' + id + ' .complete');
+            completeElem.className = completeElem.className.split('hide').join('');
+        } else {
+            navigator.notification.alert(
+                "Report: " + id,  // message
+                this.alertDismissed,   // callback
+                'Report',         // title
+                'Ok'            // buttonName
+            );
+        }
     },
     alertDismissed: function() {
         // do something
     },
-    onAppIsOnline = function () {
+    onAppIsOnline: function () {
         app.report('online');
         //document.getElementById("offline_div").style.display == 'none';
         //if (previousLocation != '') {
@@ -67,7 +71,7 @@ var app = {
         //}
     },
     //Call When app goes offline
-    onAppIsOffline = function () {
+    onAppIsOffline: function () {
         app.report('offline');
         //setAppState(false);
         //previousLocation = document.location.href;
